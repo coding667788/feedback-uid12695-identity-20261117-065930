@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "description": "Acceptance corpus for the JSON signature-boundary audit tool. 'file' entries are read as raw bytes relative to this file; 'inline' entries are UTF-8 strings.",
+  "protected_paths": ["tenant", "amount", "role"],
+  "cases": [
+    {"name": "valid-basic", "file": "samples/valid-basic.json"},
+    {"name": "valid-safe-max", "file": "samples/valid-safe-max.json"},
+    {"name": "negative-zero", "file": "samples/negative-zero.json"},
+    {"name": "surrogate-pair", "file": "samples/surrogate-pair.json"},
+    {"name": "key-order", "file": "samples/key-order.json"},
+    {"name": "dup-role-escalation", "file": "samples/dup-role-escalation.json"},
+    {"name": "dup-role-reordered", "file": "samples/dup-role-reordered.json"},
+    {"name": "dup-tenant-nested", "file": "samples/dup-tenant-nested.json"},
+    {"name": "escaped-duplicate-key", "file": "samples/escaped-duplicate-key.json"},
+    {"name": "dup-tenant-type", "file": "samples/dup-tenant-type.json"},
+    {"name": "amount-2p53-plus1", "file": "samples/amount-2p53-plus1.json"},
+    {"name": "serialization-only-dup", "file": "samples/serialization-only-dup.json"},
+    {"name": "bad-utf8", "file": "samples/bad-utf8.bin"},
+    {"name": "lone-surrogate", "file": "samples/lone-surrogate.json"},
+    {"name": "deep-nesting", "file": "samples/deep-nesting.json"},
+    {"name": "trailing-data", "file": "samples/trailing-data.json"},
+    {"name": "inline-demo", "inline": "{\"tenant\":\"acme\",\"amount\":42,\"role\":\"user\"}"}
+  ]
+}

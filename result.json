@@ -1,0 +1,1422 @@
+{
+  "tool": "json-sig-boundary-audit",
+  "schema_version": 1,
+  "seed": "uid12695-json-sig-boundary-audit-fixed-seed-v1",
+  "policies": {
+    "gateway": {
+      "object": "first-key",
+      "number": "exact-integer"
+    },
+    "service": {
+      "object": "last-key",
+      "number": "ieee754"
+    }
+  },
+  "protected_paths": [
+    "tenant",
+    "amount",
+    "role"
+  ],
+  "max_depth": 128,
+  "canonical_rules": {
+    "encoding": "utf-8",
+    "key_order": "unicode-code-point",
+    "whitespace": "none",
+    "numbers": "integers with |v| <= 2^53-1; -0 normalized to 0",
+    "duplicate_keys": "rejected at every nesting level"
+  },
+  "cases": [
+    {
+      "name": "valid-basic",
+      "source": {
+        "type": "file",
+        "path": "samples/valid-basic.json"
+      },
+      "parse": {
+        "ok": true
+      },
+      "diffs": [
+        {
+          "path": "tenant",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "acme",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 10
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "acme",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 10
+          }
+        },
+        {
+          "path": "amount",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "number",
+            "value": "100",
+            "raw": "100",
+            "occurrences": 1,
+            "offset": 26
+          },
+          "service": {
+            "present": true,
+            "kind": "number",
+            "value": "100.0",
+            "raw": "100",
+            "occurrences": 1,
+            "offset": 26
+          }
+        },
+        {
+          "path": "role",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "user",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 37
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "user",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 37
+          }
+        }
+      ],
+      "authorization_risk": false,
+      "risk_reasons": [],
+      "canonical": {
+        "ok": true,
+        "utf8": "{\"amount\":100,\"role\":\"user\",\"tenant\":\"acme\"}",
+        "sha256": "4f49202217b9dfff9813e5193cf4b269780b743e82ba8d3b70b99b6ccbe8bce4"
+      },
+      "signature": {
+        "algorithm": "HMAC-SHA256",
+        "canonical_sha256": "4f49202217b9dfff9813e5193cf4b269780b743e82ba8d3b70b99b6ccbe8bce4",
+        "signature": "3bccbf8ab06cc7749ee8604bfd1a72d9781ad3a96da6f867019d136f9040fa62",
+        "verified": true
+      },
+      "verified_read": {
+        "tenant": {
+          "present": true,
+          "kind": "string",
+          "value": "acme",
+          "raw": null,
+          "occurrences": 1,
+          "offset": 10
+        },
+        "amount": {
+          "present": true,
+          "kind": "number",
+          "value": "100",
+          "raw": "100",
+          "occurrences": 1,
+          "offset": 26
+        },
+        "role": {
+          "present": true,
+          "kind": "string",
+          "value": "user",
+          "raw": null,
+          "occurrences": 1,
+          "offset": 37
+        }
+      },
+      "verdict": "pass"
+    },
+    {
+      "name": "valid-safe-max",
+      "source": {
+        "type": "file",
+        "path": "samples/valid-safe-max.json"
+      },
+      "parse": {
+        "ok": true
+      },
+      "diffs": [
+        {
+          "path": "tenant",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "acme",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 10
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "acme",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 10
+          }
+        },
+        {
+          "path": "amount",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "number",
+            "value": "9007199254740991",
+            "raw": "9007199254740991",
+            "occurrences": 1,
+            "offset": 26
+          },
+          "service": {
+            "present": true,
+            "kind": "number",
+            "value": "9007199254740991.0",
+            "raw": "9007199254740991",
+            "occurrences": 1,
+            "offset": 26
+          }
+        },
+        {
+          "path": "role",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "user",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 50
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "user",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 50
+          }
+        }
+      ],
+      "authorization_risk": false,
+      "risk_reasons": [],
+      "canonical": {
+        "ok": true,
+        "utf8": "{\"amount\":9007199254740991,\"role\":\"user\",\"tenant\":\"acme\"}",
+        "sha256": "0b6f7fa8d25d2ed9c6a142a1e313553f3291503b3b222c92bbba63b1f591ae28"
+      },
+      "signature": {
+        "algorithm": "HMAC-SHA256",
+        "canonical_sha256": "0b6f7fa8d25d2ed9c6a142a1e313553f3291503b3b222c92bbba63b1f591ae28",
+        "signature": "cde1f350a04f7134360954dfb90136f98986dc61c956247c6db055aa27105800",
+        "verified": true
+      },
+      "verified_read": {
+        "tenant": {
+          "present": true,
+          "kind": "string",
+          "value": "acme",
+          "raw": null,
+          "occurrences": 1,
+          "offset": 10
+        },
+        "amount": {
+          "present": true,
+          "kind": "number",
+          "value": "9007199254740991",
+          "raw": "9007199254740991",
+          "occurrences": 1,
+          "offset": 26
+        },
+        "role": {
+          "present": true,
+          "kind": "string",
+          "value": "user",
+          "raw": null,
+          "occurrences": 1,
+          "offset": 50
+        }
+      },
+      "verdict": "pass"
+    },
+    {
+      "name": "negative-zero",
+      "source": {
+        "type": "file",
+        "path": "samples/negative-zero.json"
+      },
+      "parse": {
+        "ok": true
+      },
+      "diffs": [
+        {
+          "path": "tenant",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "acme",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 10
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "acme",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 10
+          }
+        },
+        {
+          "path": "amount",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "number",
+            "value": "-0",
+            "raw": "-0",
+            "occurrences": 1,
+            "offset": 26
+          },
+          "service": {
+            "present": true,
+            "kind": "number",
+            "value": "-0.0",
+            "raw": "-0",
+            "occurrences": 1,
+            "offset": 26
+          }
+        },
+        {
+          "path": "role",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "user",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 36
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "user",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 36
+          }
+        }
+      ],
+      "authorization_risk": false,
+      "risk_reasons": [],
+      "canonical": {
+        "ok": true,
+        "utf8": "{\"amount\":0,\"role\":\"user\",\"tenant\":\"acme\"}",
+        "sha256": "d3ae41a3a14ca911ed6f21f28633f9547bf6e33f7545d39f2bc20eea38efda91"
+      },
+      "signature": {
+        "algorithm": "HMAC-SHA256",
+        "canonical_sha256": "d3ae41a3a14ca911ed6f21f28633f9547bf6e33f7545d39f2bc20eea38efda91",
+        "signature": "ff812d64affe5467c42ba3ac24860aa64ab8bbd3c6ffd78fb8e11340a7fa8b44",
+        "verified": true
+      },
+      "verified_read": {
+        "tenant": {
+          "present": true,
+          "kind": "string",
+          "value": "acme",
+          "raw": null,
+          "occurrences": 1,
+          "offset": 10
+        },
+        "amount": {
+          "present": true,
+          "kind": "number",
+          "value": "-0",
+          "raw": "-0",
+          "occurrences": 1,
+          "offset": 26
+        },
+        "role": {
+          "present": true,
+          "kind": "string",
+          "value": "user",
+          "raw": null,
+          "occurrences": 1,
+          "offset": 36
+        }
+      },
+      "verdict": "pass"
+    },
+    {
+      "name": "surrogate-pair",
+      "source": {
+        "type": "file",
+        "path": "samples/surrogate-pair.json"
+      },
+      "parse": {
+        "ok": true
+      },
+      "diffs": [
+        {
+          "path": "tenant",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "acme",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 10
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "acme",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 10
+          }
+        },
+        {
+          "path": "amount",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "number",
+            "value": "7",
+            "raw": "7",
+            "occurrences": 1,
+            "offset": 26
+          },
+          "service": {
+            "present": true,
+            "kind": "number",
+            "value": "7.0",
+            "raw": "7",
+            "occurrences": 1,
+            "offset": 26
+          }
+        },
+        {
+          "path": "role",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "😀-admin",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 35
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "😀-admin",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 35
+          }
+        }
+      ],
+      "authorization_risk": false,
+      "risk_reasons": [],
+      "canonical": {
+        "ok": true,
+        "utf8": "{\"amount\":7,\"role\":\"😀-admin\",\"tenant\":\"acme\"}",
+        "sha256": "1a79b7fa03b87b7af397ef09316bf8b6cbc9fa5163bc868baeb5d43a60a8d2e7"
+      },
+      "signature": {
+        "algorithm": "HMAC-SHA256",
+        "canonical_sha256": "1a79b7fa03b87b7af397ef09316bf8b6cbc9fa5163bc868baeb5d43a60a8d2e7",
+        "signature": "7a3c6305e454ccde0a3ceafce0f185089e5e55398117b0c93450a2a4f723ec03",
+        "verified": true
+      },
+      "verified_read": {
+        "tenant": {
+          "present": true,
+          "kind": "string",
+          "value": "acme",
+          "raw": null,
+          "occurrences": 1,
+          "offset": 10
+        },
+        "amount": {
+          "present": true,
+          "kind": "number",
+          "value": "7",
+          "raw": "7",
+          "occurrences": 1,
+          "offset": 26
+        },
+        "role": {
+          "present": true,
+          "kind": "string",
+          "value": "😀-admin",
+          "raw": null,
+          "occurrences": 1,
+          "offset": 35
+        }
+      },
+      "verdict": "pass"
+    },
+    {
+      "name": "key-order",
+      "source": {
+        "type": "file",
+        "path": "samples/key-order.json"
+      },
+      "parse": {
+        "ok": true
+      },
+      "diffs": [
+        {
+          "path": "tenant",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "acme",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 35
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "acme",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 35
+          }
+        },
+        {
+          "path": "amount",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "number",
+            "value": "5",
+            "raw": "5",
+            "occurrences": 1,
+            "offset": 24
+          },
+          "service": {
+            "present": true,
+            "kind": "number",
+            "value": "5.0",
+            "raw": "5",
+            "occurrences": 1,
+            "offset": 24
+          }
+        },
+        {
+          "path": "role",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "user",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 8
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "user",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 8
+          }
+        }
+      ],
+      "authorization_risk": false,
+      "risk_reasons": [],
+      "canonical": {
+        "ok": true,
+        "utf8": "{\"amount\":5,\"role\":\"user\",\"tenant\":\"acme\"}",
+        "sha256": "4f4b8b1c29fd02e371c4c333ad047a4264d7a034694e9cb9cb1fd3d3622d893e"
+      },
+      "signature": {
+        "algorithm": "HMAC-SHA256",
+        "canonical_sha256": "4f4b8b1c29fd02e371c4c333ad047a4264d7a034694e9cb9cb1fd3d3622d893e",
+        "signature": "394c2072040494dee62da369f6a1eabe97db9182da9d163b9054a82c73765f4a",
+        "verified": true
+      },
+      "verified_read": {
+        "tenant": {
+          "present": true,
+          "kind": "string",
+          "value": "acme",
+          "raw": null,
+          "occurrences": 1,
+          "offset": 35
+        },
+        "amount": {
+          "present": true,
+          "kind": "number",
+          "value": "5",
+          "raw": "5",
+          "occurrences": 1,
+          "offset": 24
+        },
+        "role": {
+          "present": true,
+          "kind": "string",
+          "value": "user",
+          "raw": null,
+          "occurrences": 1,
+          "offset": 8
+        }
+      },
+      "verdict": "pass"
+    },
+    {
+      "name": "dup-role-escalation",
+      "source": {
+        "type": "file",
+        "path": "samples/dup-role-escalation.json"
+      },
+      "parse": {
+        "ok": true
+      },
+      "diffs": [
+        {
+          "path": "tenant",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "acme",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 10
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "acme",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 10
+          }
+        },
+        {
+          "path": "amount",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "number",
+            "value": "10",
+            "raw": "10",
+            "occurrences": 1,
+            "offset": 26
+          },
+          "service": {
+            "present": true,
+            "kind": "number",
+            "value": "10.0",
+            "raw": "10",
+            "occurrences": 1,
+            "offset": 26
+          }
+        },
+        {
+          "path": "role",
+          "classification": "value_diff",
+          "dangerous": true,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "user",
+            "raw": null,
+            "occurrences": 2,
+            "offset": 36
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "admin",
+            "raw": null,
+            "occurrences": 2,
+            "offset": 50
+          }
+        }
+      ],
+      "authorization_risk": true,
+      "risk_reasons": [
+        "role: value_diff (gateway='user', service='admin')"
+      ],
+      "canonical": {
+        "ok": false,
+        "error": {
+          "code": "E_DUP_KEY",
+          "message": "duplicate object key 'role'",
+          "offset": 43
+        }
+      },
+      "signature": null,
+      "verified_read": null,
+      "verdict": "risky"
+    },
+    {
+      "name": "dup-role-reordered",
+      "source": {
+        "type": "file",
+        "path": "samples/dup-role-reordered.json"
+      },
+      "parse": {
+        "ok": true
+      },
+      "diffs": [
+        {
+          "path": "tenant",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "acme",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 39
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "acme",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 39
+          }
+        },
+        {
+          "path": "amount",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "number",
+            "value": "10",
+            "raw": "10",
+            "occurrences": 1,
+            "offset": 55
+          },
+          "service": {
+            "present": true,
+            "kind": "number",
+            "value": "10.0",
+            "raw": "10",
+            "occurrences": 1,
+            "offset": 55
+          }
+        },
+        {
+          "path": "role",
+          "classification": "value_diff",
+          "dangerous": true,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "admin",
+            "raw": null,
+            "occurrences": 2,
+            "offset": 8
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "user",
+            "raw": null,
+            "occurrences": 2,
+            "offset": 23
+          }
+        }
+      ],
+      "authorization_risk": true,
+      "risk_reasons": [
+        "role: value_diff (gateway='admin', service='user')"
+      ],
+      "canonical": {
+        "ok": false,
+        "error": {
+          "code": "E_DUP_KEY",
+          "message": "duplicate object key 'role'",
+          "offset": 16
+        }
+      },
+      "signature": null,
+      "verified_read": null,
+      "verdict": "risky"
+    },
+    {
+      "name": "dup-tenant-nested",
+      "source": {
+        "type": "file",
+        "path": "samples/dup-tenant-nested.json"
+      },
+      "parse": {
+        "ok": true
+      },
+      "diffs": [
+        {
+          "path": "tenant",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "acme",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 10
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "acme",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 10
+          }
+        },
+        {
+          "path": "amount",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "number",
+            "value": "5",
+            "raw": "5",
+            "occurrences": 1,
+            "offset": 26
+          },
+          "service": {
+            "present": true,
+            "kind": "number",
+            "value": "5.0",
+            "raw": "5",
+            "occurrences": 1,
+            "offset": 26
+          }
+        },
+        {
+          "path": "role",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "user",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 35
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "user",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 35
+          }
+        }
+      ],
+      "authorization_risk": false,
+      "risk_reasons": [],
+      "canonical": {
+        "ok": false,
+        "error": {
+          "code": "E_DUP_KEY",
+          "message": "duplicate object key 'tenant'",
+          "offset": 69
+        }
+      },
+      "signature": null,
+      "verified_read": null,
+      "verdict": "rejected-by-canonicalization"
+    },
+    {
+      "name": "escaped-duplicate-key",
+      "source": {
+        "type": "file",
+        "path": "samples/escaped-duplicate-key.json"
+      },
+      "parse": {
+        "ok": true
+      },
+      "diffs": [
+        {
+          "path": "tenant",
+          "classification": "value_diff",
+          "dangerous": true,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "acme",
+            "raw": null,
+            "occurrences": 2,
+            "offset": 10
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "evil",
+            "raw": null,
+            "occurrences": 2,
+            "offset": 31
+          }
+        },
+        {
+          "path": "amount",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "number",
+            "value": "1",
+            "raw": "1",
+            "occurrences": 1,
+            "offset": 47
+          },
+          "service": {
+            "present": true,
+            "kind": "number",
+            "value": "1.0",
+            "raw": "1",
+            "occurrences": 1,
+            "offset": 47
+          }
+        },
+        {
+          "path": "role",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "user",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 56
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "user",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 56
+          }
+        }
+      ],
+      "authorization_risk": true,
+      "risk_reasons": [
+        "tenant: value_diff (gateway='acme', service='evil')"
+      ],
+      "canonical": {
+        "ok": false,
+        "error": {
+          "code": "E_DUP_KEY",
+          "message": "duplicate object key 'tenant'",
+          "offset": 17
+        }
+      },
+      "signature": null,
+      "verified_read": null,
+      "verdict": "risky"
+    },
+    {
+      "name": "dup-tenant-type",
+      "source": {
+        "type": "file",
+        "path": "samples/dup-tenant-type.json"
+      },
+      "parse": {
+        "ok": true
+      },
+      "diffs": [
+        {
+          "path": "tenant",
+          "classification": "type_diff",
+          "dangerous": true,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "acme",
+            "raw": null,
+            "occurrences": 2,
+            "offset": 10
+          },
+          "service": {
+            "present": true,
+            "kind": "object",
+            "value": {
+              "admin": true
+            },
+            "raw": null,
+            "occurrences": 2,
+            "offset": 26
+          }
+        },
+        {
+          "path": "amount",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "number",
+            "value": "1",
+            "raw": "1",
+            "occurrences": 1,
+            "offset": 50
+          },
+          "service": {
+            "present": true,
+            "kind": "number",
+            "value": "1.0",
+            "raw": "1",
+            "occurrences": 1,
+            "offset": 50
+          }
+        },
+        {
+          "path": "role",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "user",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 59
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "user",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 59
+          }
+        }
+      ],
+      "authorization_risk": true,
+      "risk_reasons": [
+        "tenant: type_diff (gateway='acme', service={'admin': True})"
+      ],
+      "canonical": {
+        "ok": false,
+        "error": {
+          "code": "E_DUP_KEY",
+          "message": "duplicate object key 'tenant'",
+          "offset": 17
+        }
+      },
+      "signature": null,
+      "verified_read": null,
+      "verdict": "risky"
+    },
+    {
+      "name": "amount-2p53-plus1",
+      "source": {
+        "type": "file",
+        "path": "samples/amount-2p53-plus1.json"
+      },
+      "parse": {
+        "ok": true
+      },
+      "diffs": [
+        {
+          "path": "tenant",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "acme",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 10
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "acme",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 10
+          }
+        },
+        {
+          "path": "amount",
+          "classification": "value_diff",
+          "dangerous": true,
+          "gateway": {
+            "present": true,
+            "kind": "number",
+            "value": "9007199254740993",
+            "raw": "9007199254740993",
+            "occurrences": 1,
+            "offset": 26
+          },
+          "service": {
+            "present": true,
+            "kind": "number",
+            "value": "9007199254740992.0",
+            "raw": "9007199254740993",
+            "occurrences": 1,
+            "offset": 26
+          }
+        },
+        {
+          "path": "role",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "user",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 50
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "user",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 50
+          }
+        }
+      ],
+      "authorization_risk": true,
+      "risk_reasons": [
+        "amount: value_diff (gateway='9007199254740993', service='9007199254740992.0')"
+      ],
+      "canonical": {
+        "ok": false,
+        "error": {
+          "code": "E_RANGE",
+          "message": "integer '9007199254740993' exceeds safe range |v| <= 2^53-1",
+          "offset": 26
+        }
+      },
+      "signature": null,
+      "verified_read": null,
+      "verdict": "risky"
+    },
+    {
+      "name": "serialization-only-dup",
+      "source": {
+        "type": "file",
+        "path": "samples/serialization-only-dup.json"
+      },
+      "parse": {
+        "ok": true
+      },
+      "diffs": [
+        {
+          "path": "tenant",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "acme",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 10
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "acme",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 10
+          }
+        },
+        {
+          "path": "amount",
+          "classification": "serialization_only",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "number",
+            "value": "1E+2",
+            "raw": "1e2",
+            "occurrences": 2,
+            "offset": 26
+          },
+          "service": {
+            "present": true,
+            "kind": "number",
+            "value": "100.0",
+            "raw": "100",
+            "occurrences": 2,
+            "offset": 39
+          }
+        },
+        {
+          "path": "role",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "user",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 50
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "user",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 50
+          }
+        }
+      ],
+      "authorization_risk": false,
+      "risk_reasons": [],
+      "canonical": {
+        "ok": false,
+        "error": {
+          "code": "E_DUP_KEY",
+          "message": "duplicate object key 'amount'",
+          "offset": 30
+        }
+      },
+      "signature": null,
+      "verified_read": null,
+      "verdict": "rejected-by-canonicalization"
+    },
+    {
+      "name": "bad-utf8",
+      "source": {
+        "type": "file",
+        "path": "samples/bad-utf8.bin"
+      },
+      "parse": {
+        "ok": false,
+        "error": {
+          "code": "E_UTF8",
+          "message": "invalid UTF-8 lead byte 0xff",
+          "offset": 38
+        }
+      },
+      "authorization_risk": false,
+      "verdict": "rejected-unparseable"
+    },
+    {
+      "name": "lone-surrogate",
+      "source": {
+        "type": "file",
+        "path": "samples/lone-surrogate.json"
+      },
+      "parse": {
+        "ok": false,
+        "error": {
+          "code": "E_UNICODE",
+          "message": "lone high surrogate",
+          "offset": 36
+        }
+      },
+      "authorization_risk": false,
+      "verdict": "rejected-unparseable"
+    },
+    {
+      "name": "deep-nesting",
+      "source": {
+        "type": "file",
+        "path": "samples/deep-nesting.json"
+      },
+      "parse": {
+        "ok": false,
+        "error": {
+          "code": "E_DEPTH",
+          "message": "nesting deeper than max_depth=128",
+          "offset": 128
+        }
+      },
+      "authorization_risk": false,
+      "verdict": "rejected-unparseable"
+    },
+    {
+      "name": "trailing-data",
+      "source": {
+        "type": "file",
+        "path": "samples/trailing-data.json"
+      },
+      "parse": {
+        "ok": false,
+        "error": {
+          "code": "E_SYNTAX",
+          "message": "unexpected trailing data after top-level value",
+          "offset": 43
+        }
+      },
+      "authorization_risk": false,
+      "verdict": "rejected-unparseable"
+    },
+    {
+      "name": "inline-demo",
+      "source": {
+        "type": "inline"
+      },
+      "parse": {
+        "ok": true
+      },
+      "diffs": [
+        {
+          "path": "tenant",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "acme",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 10
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "acme",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 10
+          }
+        },
+        {
+          "path": "amount",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "number",
+            "value": "42",
+            "raw": "42",
+            "occurrences": 1,
+            "offset": 26
+          },
+          "service": {
+            "present": true,
+            "kind": "number",
+            "value": "42.0",
+            "raw": "42",
+            "occurrences": 1,
+            "offset": 26
+          }
+        },
+        {
+          "path": "role",
+          "classification": "equal",
+          "dangerous": false,
+          "gateway": {
+            "present": true,
+            "kind": "string",
+            "value": "user",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 36
+          },
+          "service": {
+            "present": true,
+            "kind": "string",
+            "value": "user",
+            "raw": null,
+            "occurrences": 1,
+            "offset": 36
+          }
+        }
+      ],
+      "authorization_risk": false,
+      "risk_reasons": [],
+      "canonical": {
+        "ok": true,
+        "utf8": "{\"amount\":42,\"role\":\"user\",\"tenant\":\"acme\"}",
+        "sha256": "54de015a0f65240e17a64a8164035558b86bb7309ff09dc8a77c741dc62803bf"
+      },
+      "signature": {
+        "algorithm": "HMAC-SHA256",
+        "canonical_sha256": "54de015a0f65240e17a64a8164035558b86bb7309ff09dc8a77c741dc62803bf",
+        "signature": "a2cdbdda4f4d31132530bdb76dbbe7421a69c5a5459cdad96c29ab7d7301c9dd",
+        "verified": true
+      },
+      "verified_read": {
+        "tenant": {
+          "present": true,
+          "kind": "string",
+          "value": "acme",
+          "raw": null,
+          "occurrences": 1,
+          "offset": 10
+        },
+        "amount": {
+          "present": true,
+          "kind": "number",
+          "value": "42",
+          "raw": "42",
+          "occurrences": 1,
+          "offset": 26
+        },
+        "role": {
+          "present": true,
+          "kind": "string",
+          "value": "user",
+          "raw": null,
+          "occurrences": 1,
+          "offset": 36
+        }
+      },
+      "verdict": "pass"
+    }
+  ],
+  "summary": {
+    "total": 17,
+    "pass": 6,
+    "risky": 5,
+    "rejected": 6,
+    "errors": 0
+  }
+}
